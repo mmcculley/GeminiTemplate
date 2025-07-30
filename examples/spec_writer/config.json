@@ -1,0 +1,16 @@
+{
+  "name": "Specification Writer Agent",
+  "description": "An agent that generates detailed AGENTIC_HANDOFF.md files for new projects.",
+  "components": [
+    "components/01_persona.md",
+    "components/05_output_format_handoff.md"
+  ],
+  "task_prompt": "Your mission is to generate a complete AGENTIC_HANDOFF.md file for a new project. The project is a modular event management web application. Use the variables provided to populate the template. The output must strictly adhere to the format defined in the '05_output_format_handoff.md' component.",
+  "variables": {
+    "project_name": "PartyVenue Planner",
+    "frontend_framework": "React + Shoelace",
+    "backend_framework": "Node.js + Express",
+    "database": "PostgreSQL",
+    "deployment_env": "Docker + Podman"
+  }
+}

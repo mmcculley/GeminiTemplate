@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prompt Configuration Schema",
+  "description": "Defines the structure for the prompt assembly configuration files.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the prompt configuration.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A brief description of what the agent or prompt does.",
+      "type": "string"
+    },
+    "components": {
+      "description": "An ordered list of markdown component files to assemble.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "task_prompt": {
+      "description": "The final, specific task prompt for the agent. Can contain variables.",
+      "type": "string"
+    },
+    "variables": {
+      "description": "A key-value map of variables to be rendered into the prompt components.",
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean"]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "components"
+  ]
+}

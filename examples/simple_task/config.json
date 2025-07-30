@@ -1,0 +1,13 @@
+{
+  "name": "Simple Task Example",
+  "description": "A simple example of writing a 'Hello, world!' script.",
+  "components": [
+    "components/01_persona.md",
+    "components/02_rules.md",
+    "components/03_tools.md",
+    "components/04_workflow.md",
+    "components/05_output_format.md",
+    "components/06_logging.md"
+  ],
+  "task_prompt": "Write a Python script that prints 'Hello, world!'."
+}

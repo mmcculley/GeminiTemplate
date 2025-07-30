@@ -1,0 +1,13 @@
+{
+  "name": "Complex Task Example",
+  "description": "A complex example that involves reading a file, processing its content, and writing to another file.",
+  "components": [
+    "components/01_persona.md",
+    "components/02_rules.md",
+    "components/03_tools.md",
+    "components/04_workflow.md",
+    "components/05_output_format.md",
+    "components/06_logging.md"
+  ],
+  "task_prompt": "Read the contents of a file named `data.txt`, count the number of words, and write the result to a new file named `count.txt`."
+}
