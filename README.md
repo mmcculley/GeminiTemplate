@@ -1,23 +1,23 @@
-# Gemini Agentic Prompt Template
+# Prompt Factory: A Framework for Agentic Prompt Engineering
 
-This repository provides a structured template for creating, managing, and verifying complex agentic prompts for Gemini. Using a modular approach, it helps in building maintainable, reusable, and effective prompts that can be automatically verified against a "golden record".
+This repository provides a structured framework for rapidly designing, testing, and generating complex prompts for multiple AI agents (Gemini, ChatGPT, etc.) and for various stages of a project's lifecycle. It is a **Prompt IDE** designed to accelerate your ideation-to-development workflow.
 
-## The Core Idea: Build and Verify
+## The Core Idea: The Prompt Factory
 
-This template separates the prompt creation process into two key stages:
+This framework treats prompt engineering like a manufacturing process. You create a library of reusable **components**, define different **recipes** for combining them, and use a **factory script** to assemble the final prompts.
 
-1. **Modular Components:** The prompt is broken down into smaller, reusable markdown files located in `components/` and `examples/`. This allows for easy management and modification of the agent's persona, rules, and workflow.
-2. **Assembly and Verification:** The `assemble_prompt.py` script reads a `config.json` file, assembles the components into a single, final prompt, and crucially, can **verify** it against a reference version stored in `reference_prompts/`.
-
-This workflow ensures that any changes to the prompt components can be tested to ensure they produce the expected final `GEMINI.md` file, making the system robust and reliable.
+1. **Components (`components/`):** A library of reusable, modular prompt snippets. These can be generic (like a persona) or specific to an AI target (like Gemini's tool definitions vs. ChatGPT's plugin descriptions).
+2. **Projects (`projects/`):** Each subdirectory represents one of your app ideas (e.g., `partyvenue_planner`). Inside, you can store project-specific components and, most importantly, multiple "recipes."
+3. **Recipes (`config_[recipe_name].json`):** These are the heart of the system. A recipe is a JSON file that defines which components to assemble for a specific task. For a single project, you can have multiple recipes: `config_scaffold.json`, `config_add_feature.json`, `config_for_chatgpt.json`, etc.
+4. **The Factory (`assemble_prompt.py`):** This is the core script that reads a recipe, assembles the components, and generates the final prompt.
+5. **The Automation (`prepare_agent.bat`/`.sh`):** These master scripts automate the entire two-phase process of generating a project blueprint (`AGENTIC_HANDOFF.md`) and the agent's final instructions (`GEMINI.md`) with a single command.
 
 ## 🚀 The Workflow
 
-1. **Define Components:** Create or modify the markdown files in `components/` (for shared, core instructions) and within specific `examples/` directories (for task-specific instructions).
-2. **Configure:** Create a `config.json` inside a new `examples/` subdirectory. In this file, list the component files in the desired order.
-3. **Create a Reference Prompt:** Manually assemble your desired final prompt and save it in the `reference_prompts/` directory with the name `[example_name]_GEMINI.md`. This is your "golden record".
-4. **Assemble & Verify:** Use the `assemble_prompt.py` script to build the prompt from your config and verify that it matches your reference file.
-5. **Deploy:** Once verified, you can use the same script to output the final prompt as `GEMINI.md` in your project's root.
+1. **Define Components:** Create or modify the markdown files in `components/` and within specific `projects/` directories.
+2. **Create a Recipe:** For a project in the `projects/` directory, create a `config_[recipe_name].json` file. List the components you want to assemble for that specific task.
+3. **Prepare the Agent:** Run the master script to generate the `AGENTIC_HANDOFF.md` and the final `GEMINI.md` for your chosen project and recipe.
+4. **Execute:** Use the generated `GEMINI.md` file to run your target AI agent.
 
 ## 📂 Directory Structure
 
@@ -25,67 +25,67 @@ This workflow ensures that any changes to the prompt components can be tested to
 .
 ├── README.md
 ├── assemble_prompt.py
+├── prepare_agent.bat
 ├── components/
-├── examples/
-│   └── [your_task]/
+│   └── ...
+├── projects/
+│   └── [your_project]/
+│       ├── config_[recipe_name].json
+│       └── ... (project-specific components)
+├── meta/
+│   └── spec_writer/
 │       └── config.json
 └── reference_prompts/
-    └── [your_task]_GEMINI.md
+    └── ...
 ```
 
-- **`components/`**: Contains the reusable, core building blocks of your prompt (e.g., persona, tools, generic workflow).
-- **`examples/`**: Contains task-specific configurations and prompt components. Each subdirectory represents a unique agent or task.
-- **`reference_prompts/`**: Stores the final, correct "golden record" prompts. The assembly script verifies against these files.
-- **`assemble_prompt.py`**: The core script for building and verifying prompts.
+## ⚙️ Usage: The `prepare_agent` Command
 
-## ⚙️ Assembling and Verifying Prompts
-
-The `assemble_prompt.py` script is the engine of this template. It ensures your prompts are built correctly.
+This is the primary command for the framework. It prepares everything you need to run an agent for a specific task.
 
 ### How it Works
 
-The script reads a `config.json` file, concatenates the component files listed inside it, and then performs one of the following actions:
+The script takes a **project name** and a **recipe name** as arguments. It then:
 
-- **Verify:** Compares the generated prompt against the corresponding file in `reference_prompts/`.
-- **Output:** Writes the generated prompt to a specified file path (e.g., `GEMINI.md`) or to `prompt.md` by default.
+1. Generates the `AGENTIC_HANDOFF.md` blueprint using the `meta/spec_writer` configuration.
+2. Generates the final `GEMINI.md` instruction manual using the `projects/[project_name]/config_[recipe_name].json` file.
 
-### Usage
-
-Run the script from the project root. All paths in `config.json` must be relative to the root.
-
-**1. Verify an existing example:**
+### Command
 
 ```bash
-# Verify the partyvenue_planner prompt
-python assemble_prompt.py examples/partyvenue_planner/config.json --verify
+# On Windows
+prepare_agent.bat [project_name] [recipe_name]
+
+# On Linux/macOS
+./prepare_agent.sh [project_name] [recipe_name]
 ```
 
-> ✅ SUCCESS: Assembled prompt matches the reference file...
+### Example
 
-**2. Build a final `GEMINI.md` for deployment:**
+To prepare the agent to perform the initial scaffold for the PartyVenue Planner project:
 
 ```bash
-# Build the prompt and output it to the root GEMINI.md
-python assemble_prompt.py examples/partyvenue_planner/config.json --output GEMINI.md
+prepare_agent.bat partyvenue_planner scaffold
 ```
 
-> Successfully assembled prompt at GEMINI.md
+This will create `AGENTIC_HANDOFF.md` and `GEMINI.md` in your project root, ready for use.
 
-### Script Arguments
+## Advanced Usage: `assemble_prompt.py`
 
-| Argument | Short | Description |
-|---|---|---|
-| `config_path` | | (Required) Path to the `config.json` file. |
-| `--output` | `-o` | (Optional) Path to the output file. Defaults to `prompt.md` in the config's directory. |
-| `--verify` | `-v` | (Optional) Verify the output against the corresponding file in `reference_prompts/`. |
+For more direct control, you can use the `assemble_prompt.py` script. It supports templating with variables, schema validation, and an interactive mode. Run `python assemble_prompt.py -h` for more details.
 
-## 🛡️ Stateful Logging and Recovery
+## Key Feature Example: Resilient Logging
 
-For complex, multi-step tasks, it is critical that the agent can recover from interruptions. This template implements a **stateful logging system** to ensure resilience. The full specification for this process is detailed in `components/04_workflow.md` and `components/06_logging.md`.
+This framework is designed to build sophisticated agents. A key example of this is the resilient, dual-logging system demonstrated in the `partyvenue_planner` project. By combining component files, we instruct the agent to maintain both human-readable and machine-readable logs.
+
+- **Human-Readable Logs (`agent_out_logs/`):** A directory of Markdown and JSON files that provide a high-level summary of the agent's progress, state, and any errors.
+- **Machine-Readable Log (`task_log.json`):** A structured JSON file that allows a task to be resumed automatically after an interruption, preventing the agent from re-doing completed work.
+
+This demonstrates how to use components to build complex, stateful behaviors into your agents.
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, issues, and feature requests are welcome! See the [CONTRIBUTING.md](CONTRIBUTING.md) file for details.
 
 ## 📄 License
 

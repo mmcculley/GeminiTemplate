@@ -5,23 +5,29 @@ REM ---
 REM prepare_agent.bat: Generates all necessary files for an agent to start a task.
 REM
 REM This script runs a two-stage process:
-REM 1. It generates the project blueprint (AGENTIC_HANDOFF.md) using the Spec Writer agent config.
-REM 2. It generates the agent's final instructions (GEMINI.md) using the project-specific config.
+REM 1. It generates the project blueprint (AGENTIC_HANDOFF.md).
+REM 2. It generates the agent's final instructions (GEMINI.md) using a specific project recipe.
 REM ---
 
 REM --- Configuration and Input Validation ---
 SET PROJECT_NAME=%1
+SET RECIPE_NAME=%2
 IF "%PROJECT_NAME%"=="" (
-    echo Error: Please provide a project name from the 'examples' directory.
-    echo Usage: prepare_agent.bat [project_name]
+    echo Error: Please provide a project name from the 'projects' directory.
+    echo Usage: prepare_agent.bat [project_name] [recipe_name]
+    exit /b 1
+)
+IF "%RECIPE_NAME%"=="" (
+    echo Error: Please provide a recipe name (e.g., scaffold, add_feature).
+    echo Usage: prepare_agent.bat [project_name] [recipe_name]
     exit /b 1
 )
 
-SET SPEC_CONFIG=examples\spec_writer\config.json
-SET SCAFFOLD_CONFIG=examples\%PROJECT_NAME%\config.json
+SET SPEC_CONFIG=meta\spec_writer\config.json
+SET PROJECT_CONFIG=projects\%PROJECT_NAME%\config_%RECIPE_NAME%.json
 
-IF NOT EXIST %SCAFFOLD_CONFIG% (
-    echo Error: The project '%PROJECT_NAME%' does not exist or has no config.json.
+IF NOT EXIST %PROJECT_CONFIG% (
+    echo Error: The recipe 'projects\%PROJECT_NAME%\config_%RECIPE_NAME%.json' was not found.
     exit /b 1
 )
 
@@ -38,11 +44,11 @@ IF errorlevel 1 (
 echo Successfully created AGENTIC_HANDOFF.md
 
 echo.
-echo [2/2] Generating Agent Instructions (GEMINI.md)...
+echo [2/2] Generating Agent Instructions (GEMINI.md) using '%RECIPE_NAME%' recipe...
 echo.
 
 REM --- Generate the GEMINI.md file ---
-python assemble_prompt.py %SCAFFOLD_CONFIG% --output GEMINI.md
+python assemble_prompt.py %PROJECT_CONFIG% --output GEMINI.md
 IF errorlevel 1 (
     echo FAILED to generate GEMINI.md.
     exit /b 1
