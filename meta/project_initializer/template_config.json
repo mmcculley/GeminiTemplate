@@ -1,0 +1,10 @@
+{
+  "name": "{{PROJECT_NAME}} Scaffolder",
+  "description": "An agent that scaffolds the {{PROJECT_NAME}} application.",
+  "components": [
+    "components/01_persona.md",
+    "projects/{{PROJECT_NAME}}/rules_scaffold.md"
+  ],
+  "task_prompt": "Your mission is to build the {{PROJECT_NAME}} application based on the AGENTIC_HANDOFF.md file.",
+  "variables": {}
+}

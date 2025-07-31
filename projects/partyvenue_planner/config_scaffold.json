@@ -3,10 +3,10 @@
   "description": "An agent that scaffolds the PartyVenue Planner web application.",
   "components": [
     "components/01_persona.md",
-    "examples/partyvenue_planner/02_rules_partyvenue.md",
+    "projects/partyvenue_planner/rules_scaffold.md",
     "components/03_tools.md",
-    "examples/partyvenue_planner/04_workflow_partyvenue.md",
-    "examples/partyvenue_planner/06_logging_dual.md"
+    "projects/partyvenue_planner/04_workflow_partyvenue.md",
+    "projects/partyvenue_planner/06_logging_dual.md"
   ],
   "task_prompt": "Your mission is to build a complete scaffold for a modular event management web application called {{project_name}}, based on the provided AGENTIC_HANDOFF.md and GEMINI.md files. The app includes a {{frontend_framework}} frontend and an {{backend_framework}} backend, fully dockerized.",
   "variables": {
