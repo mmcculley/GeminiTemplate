@@ -53,7 +53,7 @@ partyvenue-planner/
 
 ## Completion Flag
 
-Upon successful completion of all scaffolding tasks, you must create a file named `✔️ partyvenue_planner_build_complete.flag` at the project root.
+Upon successful completion of all scaffolding tasks, you must create a file named `✔️ partyvenue_planner_scaffolding_complete.flag` at the project root.
 
 ---
 
@@ -64,4 +64,4 @@ Before executing the main scaffolding plan, you must verify the following condit
 1. An `AGENTIC_HANDOFF.md` file exists in the project root. This file is the primary source of requirements for your task.
 2. The `reference_prompts` directory exists. This is required to ensure the project structure is intact.
 
-If any of these checks fail, you must immediately halt execution and report the missing file or directory in the `completion_summary.md` log before stopping.
+If any of these checks fail, you must immediately halt execution and report the missing file or directory in the `scaffolding_completion_summary.md` log before stopping.

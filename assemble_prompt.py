@@ -93,40 +93,41 @@ def assemble_prompt(config_path, schema_path, output_path=None, verify=False):
 def interactive_mode():
     """Guides the user through an interactive session."""
     project_root = os.getcwd()
-    examples_dir = os.path.join(project_root, "examples")
+    projects_dir = os.path.join(project_root, "projects")
     
     print("Welcome to the Interactive Prompt Assembler!")
     
-    # Find available examples
+    # Find available projects
     try:
-        examples = [d for d in os.listdir(examples_dir) if os.path.isdir(os.path.join(examples_dir, d))]
-        if not examples:
-            print("No examples found in the 'examples/' directory.")
+        projects = [d for d in os.listdir(projects_dir) if os.path.isdir(os.path.join(projects_dir, d))]
+        if not projects:
+            print("No projects found in the 'projects/' directory.")
             return
     except FileNotFoundError:
-        print("Error: The 'examples/' directory does not exist.")
+        print("Error: The 'projects/' directory does not exist.")
         return
 
-    # Let user choose an example
+    # Let user choose an project
     print("\nPlease select a prompt to work with:")
-    for i, example_name in enumerate(examples):
-        print(f"  {i + 1}: {example_name}")
+    for i, project_name in enumerate(projects):
+        print(f"  {i + 1}: {project_name}")
     
-    choice = input(f"Enter number (1-{len(examples)}): ")
+    choice = input(f"Enter number (1-{len(projects)}): ")
     try:
         selected_index = int(choice) - 1
-        if not 0 <= selected_index < len(examples):
+        if not 0 <= selected_index < len(projects):
             raise ValueError()
-        selected_example = examples[selected_index]
+        selected_project = projects[selected_index]
     except (ValueError, IndexError):
         print("Invalid selection.")
         return
         
-    config_path = os.path.join("examples", selected_example, "config.json")
+    config_path = os.path.join("projects", selected_project, "config.json")
+
     schema_path = "config.schema.json"
 
     # Let user choose an action
-    print(f"\nWhat would you like to do with '{selected_example}'?")
+    print(f"\nWhat would you like to do with '{selected_project}'?")
     print("  1: Verify against reference prompt")
     print("  2: Build to GEMINI.md in the project root")
     print("  3: Build to a custom file path")

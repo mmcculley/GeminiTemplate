@@ -40,4 +40,4 @@ For each step in the (potentially adjusted) plan, you will perform **dual loggin
 
 - **Generate Final Output:** Once all steps are complete, synthesize the results and update all logs.
 - **Final Checklist:** Confirm that all MVP files and folders from `AGENTIC_HANDOFF.md` exist.
-- **Create Completion Flag:** If successful, write the `✔️ partyvenue_planner_build_complete.flag` file at the project root.
+- **Create Completion Flag:** If successful, write the `✔️ partyvenue_planner_scaffolding_complete.flag` file at the project root.
